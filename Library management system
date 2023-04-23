@@ -1,0 +1,165 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+int count=0,a[100][100],b[100][100],c[100][100],id[100][100],idno[100][100],co=0,cou;
+
+
+struct library
+{
+  char str[100],bookname[100],bookid[10];
+}s;
+
+
+void addbook()
+{
+    int i;
+    count=count+1;
+    printf("\nenter the book name: ");
+    scanf("%s",s.bookname);
+    printf("\nenter the book id: ");
+    scanf("%s",s.bookid);
+    strcpy(id[count],s.bookid);
+    strcpy(a[count],s.bookname);
+    strcpy(c[count],a[count]);
+    cou=count;
+}
+  
+  
+void viewbooks()
+{
+    if(count!=0)
+    {
+      int i;
+      for(i=1;i<=count;i++)
+      {
+        printf("\n%s\t",a[i]);
+        printf("%s",id[i]);
+      }
+    }
+    else
+       printf("\nthere is no book to view in the library"); 
+}
+
+
+void issuebook()
+{
+   int f,i,j,pos;
+   if(count!=0)
+   {
+   printf("\nenter the book name you need to take: ");
+   scanf("%s",s.bookname);
+   for(f=0,i=1;i<=count;i++)
+     if(!strcmp(a[i],s.bookname))
+     {
+         co=co+1;
+         strcpy(b[co],a[i]);
+         strcpy(idno[co],id[i]);
+         pos=i;
+         for(j=pos;j<=count;j++)
+         {
+             strcpy(a[j],a[j+1]);
+             strcpy(id[j],id[j+1]);
+         }
+         count=count-1;
+         f=1;
+         break;
+     }
+   
+   if(f==1)
+     printf("\nbook is issued for you");
+   else
+     printf("\nbook is not avaliable in the library");
+   }
+   else
+     printf("\nthere is no book in the library to issue");
+}
+
+
+void viewissuedbooks()
+{
+    int i;
+    if(count!=0 && co!=0)
+    {
+      for(i=1;i<=co;i++)
+      {
+        printf("\n%s\t",b[i]);
+        printf("%s",idno[i]);
+      }
+    }
+    else
+       printf("\nthere is no issued book to show");
+}
+
+
+void returnbook()
+{
+  int i,f,k;
+  if(count!=0)
+  {
+  printf("\nenter the name of the book you are going to return :");
+  scanf("%s",s.bookname);
+  printf("\nenter the book id :");
+  scanf("%s",s.bookid);
+  for(k=0,i=1;i<=count;i++)
+     if(strcmp(s.bookname,a[i])==0)
+       k=1;
+  if(k==0)
+  {  
+  for(f=0,i=1;i<=cou;i++)
+      if(strcmp(s.bookname,c[i])==0)
+            f=1;
+      if(f==1)
+      {
+         printf("\nyes this book belongs to our library thank for returning");
+         {
+            strcpy(a[count+1],s.bookname);
+            strcpy(id[count+1],s.bookid);
+            co=co-1;
+            count=count+1;
+         }
+      }
+      else
+        printf("\nthis book does not belongs to our library");
+  }
+  else
+    printf("\nthis book does not belongs to our library");
+  }
+  else
+     printf("\nthere is no book in library so it not our book");
+}
+
+
+void closeapp()
+{
+     printf("\nThank you....");
+     exit(1);
+}
+
+
+
+
+void main()
+{
+int n;
+printf("\n\nwelcome to library\n");
+printf("1.add book\n2.view books\n3.issue book\n4.view issued books\n5.return book\n6.closeapp\n\nenter your option no: ");
+scanf("%d",&n);
+switch(n)
+{
+case 1: addbook();
+    main();
+case 2: viewbooks();
+    main();
+case 3: issuebook();
+    main();
+case 4: viewissuedbooks();
+    main();
+case 5: returnbook();
+    main();
+case 6: closeapp();
+    break;
+default:
+    printf("\nplease enter the valid option");
+    main(); 
+}
+}
